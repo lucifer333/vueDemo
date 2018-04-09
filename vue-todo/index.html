@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/jquery-3.3.1.js"></script>
+		<script src="js/bootstrap.js"></script>
+		<script src="js/vue.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+		<script>
+			$(function () {
+				var vm=new Vue({
+					el:'#vm',
+					data:{
+						title:'TODO list',
+						todos:[{
+							name:'Learn Git',
+							description:'Learn how to use git as distributed version control'
+						},{
+							name:'Learn JavaScript',
+							description:'Learn JavaScript, Node.js, NPM and other libraries'
+						},{
+							name:'Learn Python',
+							description:'Learn Python, WSGI, asyncio and NumPy'
+						}]
+					}
+				});
+				window.vm=vm;
+			});
+			
+			function executeJs () {
+				try{
+					var code=$('#code').val();
+					var fn=new Function('var vm=window.vm;\n'+code);
+					fn();
+				}catch(e){
+					//TODO handle the exception
+				}
+				return false;
+			}
+		</script>
+	</head>
+	<body>
+		
+		<div class="container">
+			<div class="row">
+				
+				<div class="col-md-6">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h3 class="panel-title"><span class="glyhhicon glyphicon-th-list"></span> MVVM</h3>
+						</div>
+						
+						<div class="panel-body">
+							<div id="vm">
+								<h3>{{ title }}</h3>
+								<ol>
+									<li v-for="t in todos">
+										<dl>
+											<dt>{{ t.name }}</dt>
+											<dt>{{ t.description }}</dt>
+										</dl>
+									</li>
+								</ol>
+							</div>
+							
+							<hr />
+							<h3>Try add or remove todo:</h3>
+							<form action="#" onsubmit="return executeJs()">
+								<div class="form-group">
+									<textarea id="code" class="form-control" style="font-family:Menlo,Monaco,Consolas,'Courier New',monospace; resize:none;" 
+										rows="10">vm.todos.push({
+										name:'Learn Linux',
+										description: 'Learn Linux, ssh, iptables, lvm, etc'
+									});
+									</textarea>
+								</div>
+								<button type="submit" class="btn btn-primary">Execute</button>
+							</form>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+	</body>
+</html>
